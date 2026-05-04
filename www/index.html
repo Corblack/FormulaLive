@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Data Explorer - Projet EC</title>
+    <!-- Lien vers l'unique fichier CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>F1 Data Explorer</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Accueil</a></li>
+                <li><a href="#">Saisons Passées (Base SQL)</a></li>
+                <li><a href="#">Saison en cours (API)</a></li>
+                <li><a href="#">Administration (CRUD)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Section 1 : Pour tes futures données dynamiques (API) -->
+        <section class="card">
+            <h2>Classement Actuel (Simulation API)</h2>
+            <p>Ces données seront plus tard injectées via PHP en lisant l'API Jolpica-F1.</p>
+            <ul class="data-list">
+                <li>1. Max Verstappen - Red Bull</li>
+                <li>2. Charles Leclerc - Ferrari</li>
+                <li>3. Lando Norris - McLaren</li>
+            </ul>
+        </section>
+
+        <!-- Section 2 : Pour tes données historiques (Kaggle/MySQL) -->
+        <section class="card">
+            <h2>Derniers Résultats Historiques</h2>
+            <p>Ce tableau sera rempli par ta base de données via une requête SELECT.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Année</th>
+                        <th>Pilote</th>
+                        <th>Écurie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2023</td>
+                        <td>Max Verstappen</td>
+                        <td>Red Bull</td>
+                    </tr>
+                    <tr>
+                        <td>2022</td>
+                        <td>Max Verstappen</td>
+                        <td>Red Bull</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 - Projet Web EC Coding Factory</p>
+    </footer>
+</body>
+</html>
