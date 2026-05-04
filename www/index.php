@@ -1,114 +1,75 @@
-<?php
+<?php 
 require_once 'db.php'; 
-//Préparation et exécution de la requête SQL
-$sql = "SELECT * FROM circuits LIMIT 10"; // On limite à 10 pour le test
-$stmt = $pdo->query($sql);
 
-// Récupération des données
-$circuits = $stmt->fetchAll();
+try {
+    $countDrivers = $pdo->query("SELECT COUNT(*) FROM drivers")->fetchColumn();
+    $countCircuits = $pdo->query("SELECT COUNT(*) FROM circuits")->fetchColumn();
+    $countConstructors = $pdo->query("SELECT COUNT(*) FROM constructors")->fetchColumn();
+    
+    $lastWinnerQuery = $pdo->query("
+        SELECT d.forename, d.surname, r.name as race_name, r.year 
+        FROM results res
+        JOIN drivers d ON res.driverId = d.id
+        JOIN races r ON res.raceId = r.id
+        WHERE res.positionOrder = 1
+        ORDER BY r.date DESC
+        LIMIT 1
+    ");
+    $lastWinner = $lastWinnerQuery->fetch();
+} catch (Exception $e) {
+    $countDrivers = "800+"; $countCircuits = "77"; $countConstructors = "210+";
+}
 
-$sql = "
-    SELECT 
-        races.year AS Annee, 
-        races.name AS Course,
-        drivers.surname AS Pilote, 
-        constructors.name AS Ecurie
-    FROM results
-    JOIN races ON results.raceId = races.id
-    JOIN drivers ON results.driverId = drivers.id
-    JOIN constructors ON results.constructorId = constructors.id
-    WHERE results.positionOrder = 1 -- On ne prend que les vainqueurs
-    ORDER BY races.date DESC -- Les courses les plus récentes en premier
-    LIMIT 5 -- On limite aux 5 dernières pour ne pas surcharger la page d'accueil
-";
-
-$stmt = $pdo->query($sql);
-$historique_victoires = $stmt->fetchAll();
-
+require_once 'includes/header.php'; 
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>F1 Data Explorer - Projet EC</title>
-    <!-- Lien vers l'unique fichier CSS -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>F1 Data Explorer</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#">Saisons Passées (Base SQL)</a></li>
-                <li><a href="#">Saison en cours (API)</a></li>
-                <li><a href="#">Administration (CRUD)</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main class="container">
-        <!-- Section 1 : Pour tes futures données dynamiques (API) -->
-        <section class="card">
-            <h2>Derniers Résultats Historiques (Vainqueurs)</h2>
-            <p>Ces données proviennent directement de ta base MySQL (fichier Kaggle).</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Année</th>
-                        <th>Course</th>
-                        <th>Pilote</th>
-                        <th>Écurie</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php 
-                    // On boucle sur notre tableau de résultats
-                    foreach($historique_victoires as $victoire): 
-                    ?>
-                        <tr>
-                            <!-- On affiche chaque donnée dans une cellule -->
-                            <td><?= htmlspecialchars($victoire['Annee']) ?></td>
-                            <td><?= htmlspecialchars($victoire['Course']) ?></td>
-                            <td><?= htmlspecialchars($victoire['Pilote']) ?></td>
-                            <td><?= htmlspecialchars($victoire['Ecurie']) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </section>  
 
-        <!-- Section 2 : Pour tes données historiques (Kaggle/MySQL) -->
-        <section class="card">
-            <h2>Derniers Résultats Historiques</h2>
-            <p>Ce tableau sera rempli par ta base de données via une requête SELECT.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Année</th>
-                        <th>Pilote</th>
-                        <th>Écurie</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2023</td>
-                        <td>Max Verstappen</td>
-                        <td>Red Bull</td>
-                    </tr>
-                    <tr>
-                        <td>2022</td>
-                        <td>Max Verstappen</td>
-                        <td>Red Bull</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-    </main>
+</div>
 
-    <footer>
-        <p>&copy; 2026 - Projet Web EC Coding Factory</p>
-    </footer>
-</body>
-</html>
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content container">
+        <p class="hero-eyebrow">70 years of competition</p>
+        <h1>History<br>of F1<em>In your hands</em></h1>
+        <p>More than <strong><?= $countDrivers ?> drivers</strong>, <strong><?= $countCircuits ?> circuits</strong> and decades of statistics accessible for free.</p>
+        <div class="hero-actions">
+            <a href="drivers.php" class="btn-primary">Explore drivers</a>
+            <a href="current_season.php" class="btn-secondary">2026 Season</a>
+        </div>
+    </div>
+</section>
+
+<!-- Full-width stats bar -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <span class="stat-number"><?= $countDrivers ?></span>
+        <span class="stat-label">Drivers</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number"><?= $countCircuits ?></span>
+        <span class="stat-label">Circuits</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number"><?= $countConstructors ?></span>
+        <span class="stat-label">Constructors</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number">1950</span>
+        <span class="stat-label">Since</span>
+    </div>
+</div>
+
+<div class="container">
+
+<?php if ($lastWinner): ?>
+<section class="winner-card">
+    <div class="winner-info">
+        <span class="label">Last Winner — Database</span>
+        <h3><?= htmlspecialchars($lastWinner['forename'] . ' ' . $lastWinner['surname']) ?></h3>
+        <p><?= htmlspecialchars($lastWinner['race_name']) ?> &mdash; <?= $lastWinner['year'] ?></p>
+    </div>
+    <a href="drivers.php" class="btn-primary">View all drivers</a>
+</section>
+<?php endif; ?>
+
+<?php require_once 'includes/footer.php'; ?>
