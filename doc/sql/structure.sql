@@ -1,0 +1,67 @@
+CREATE TABLE IF NOT EXISTS `circuits` (
+	`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255),
+	`location` VARCHAR(255),
+	`country` VARCHAR(255),
+	PRIMARY KEY(`id`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `constructors` (
+	`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255),
+	`nationality` VARCHAR(255),
+	PRIMARY KEY(`id`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `drivers` (
+	`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	`number` TINYINT,
+	`forename` VARCHAR(255),
+	`surname` VARCHAR(255),
+	`dob` DATE,
+	`nationality` VARCHAR(255),
+	PRIMARY KEY(`id`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `races` (
+	`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	`year` SMALLINT,
+	`round` TINYINT,
+	`name` VARCHAR(255),
+	`date` DATE,
+	`circuitId` INTEGER UNSIGNED,
+	PRIMARY KEY(`id`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `results` (
+	`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	`raceId` INTEGER UNSIGNED,
+	`driverId` INTEGER UNSIGNED,
+	`constructorId` INTEGER UNSIGNED,
+	`grid` INTEGER,
+	`positionOrder` INTEGER,
+	`points` FLOAT,
+	`time` VARCHAR(255),
+	`fastestlap` INTEGER,
+	`rank` INTEGER,
+	`fastestLapSpeed` FLOAT,
+	PRIMARY KEY(`id`)
+);
+
+
+ALTER TABLE `results`
+ADD FOREIGN KEY(`raceId`) REFERENCES `races`(`id`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `results`
+ADD FOREIGN KEY(`driverId`) REFERENCES `drivers`(`id`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `results`
+ADD FOREIGN KEY(`constructorId`) REFERENCES `constructors`(`id`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `races`
+ADD FOREIGN KEY(`circuitId`) REFERENCES `circuits`(`id`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
