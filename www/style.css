@@ -32,7 +32,7 @@ nav a:hover::after,nav a.active::after{transform:scaleX(1)}
 
 /* ── HERO ────────────────────────────────────────────────────────────────── */
 .hero{position:relative;height:70vh;min-height:500px;display:flex;align-items:flex-end;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,12,.95) 40%,rgba(10,10,12,.3)),linear-gradient(to top,rgba(10,10,12,.8),transparent 60%),url('https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&q=80&w=1600') no-repeat center/cover;transform:scale(1.04);animation:hero-zoom 20s ease-out forwards}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,12,.95) 40%,rgba(10,10,12,.3)),linear-gradient(to top,rgba(10,10,12,.8),transparent 60%),url('../doc/media/img/72499.jpg  ') no-repeat center/cover;transform:scale(1.04);animation:hero-zoom 20s ease-out forwards}
 @keyframes hero-zoom{to{transform:scale(1)}}
 .hero::after{content:'';position:absolute;top:0;right:35%;width:1px;height:100%;background:linear-gradient(to bottom,transparent,var(--border),transparent);opacity:.5}
 .hero-content{position:relative;z-index:1;padding:0 24px 72px;width:100%;animation:fade-up .9s var(--snap) both}
