@@ -2,7 +2,7 @@
 session_start();
 require_once 'db.php';
 
-$password_required = "ton_mot_de_passe_ici"; // Change-le ici !
+$password_required = "12345678";
 
 if (isset($_POST['login'])) {
     if ($_POST['password'] === $password_required) {
