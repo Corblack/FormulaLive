@@ -11,9 +11,9 @@ $tab   = $_GET['tab'] ?? 'hero';
 // Chemin filesystem : __DIR__ . '/../doc/media/img/'
 // Chemin web        : '../doc/media/img/'
 
-define('HERO_DIR',    __DIR__ . '/../doc/media/img/');
+define('HERO_DIR',    __DIR__ . '/doc/media/img/');
 define('HERO_CONFIG', __DIR__ . '/hero_image.txt');
-define('HERO_WEB',    '../doc/media/img/');
+define('HERO_WEB',    '/doc/media/img/');
 define('HERO_DEFAULT','72499.jpg');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['_action']??'') === 'upload_hero') {
