@@ -17,11 +17,10 @@ $driverStandings  = array_slice(api_driver_standings(), 0, 5);
 $lastRace         = api_last_race_results();
 $lastSprint       = api_sprint_results();
 
-// ── Hero image (admin customizable) ───────────────────────────────────────
+// Hero image dynamique
 $heroConfig = __DIR__ . '/hero_image.txt';
-$heroImage  = file_exists($heroConfig) ? trim(file_get_contents($heroConfig)) : '72499.jpg';
-$heroImage  = preg_replace('/[^a-zA-Z0-9._-]/', '', $heroImage); // sanitize
-$heroBg     = 'doc/media/img/' . $heroImage;
+$heroImage  = file_exists($heroConfig) ? preg_replace('/[^a-zA-Z0-9._-]/', '', trim(file_get_contents($heroConfig))) : '72499.jpg';
+$heroBg = '../doc/media/img/' . $heroImage;
 
 require_once 'includes/header.php'; 
 ?>
@@ -30,7 +29,7 @@ require_once 'includes/header.php';
 
 <!-- ── HERO ──────────────────────────────────────────────────────────────── -->
 <section class="hero">
-    <div class="hero-bg" style="background-image:url('<?= htmlspecialchars($heroBg) ?>');background-size:cover;background-position:center"></div>
+    <div class="hero-bg" style="background-image:url('<?= htmlspecialchars($heroBg) ?>')"></div>
     <div class="hero-content container">
         <p class="hero-eyebrow">70 years of competition</p>
         <h1>History<br>of F1<em>In your hands</em></h1>
